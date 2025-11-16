@@ -5,3 +5,35 @@
   Created by Денис on 16/11/2025.
   
 */
+
+
+
+"welcome_title" = "Welcome to iCord";
+"welcome_subtitle" = "Choose how you want to continue.";
+"continue" = "Continue";
+"back_button" = "Back";
+"continue_in_language" = "Continue in %@";
+
+"phone_title" = "Phone";
+"phone_subtitle" = "Please enter your mobile number.";
+"sync_contacts" = "Sync contacts";
+
+"confirm_title" = "Is this number correct?";
+"edit" = "Edit";
+
+"code_title" = "Enter code";
+"code_subtitle" = "We sent an SMS with a verification code to %@";
+
+"profile_title" = "Profile";
+"profile_subtitle" = "Enter your name to finish setting up your account.";
+"profile_placeholder" = "Name";
+   
+// TRANSLATE ERRORS APP
+"error_too_many_requests" = "Too many attempts. Try again later.";
+"error_incorrect_code" = "Incorrect verification code.";
+"error_internal" = "Something went wrong. Try again.";
+"error_network" = "Network error. Check your connection.";
+"error_auth" = "Authentication error. Try again.";
+"error_verification_id_empty" = "Verification ID is empty.";
+"error_user_not_found" = "User not found. Try again.";
+"error_invalid_verification_code" = "Invalid verification code.";

@@ -13,15 +13,15 @@ struct RegistrationView: View {
 
     var body: some View {
         VStack(spacing: 24) {
-            Text("Profile")
+            Text("profile_title")
                 .font(.largeTitle.bold())
 
-            Text("Enter your name to finish setting up your account.")
+            Text("profile_subtitle")
                 .multilineTextAlignment(.center)
                 .foregroundColor(.secondary)
                 .padding(.horizontal, 24)
 
-            TextField("Name", text: $displayName)
+            TextField("profile_placeholder", text: $displayName)
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal, 24)
 
@@ -30,10 +30,23 @@ struct RegistrationView: View {
             Button {
                 auth.completeProfile(name: displayName.trimmingCharacters(in: .whitespaces))
             } label: {
-                Text("Continue")
+                let isEmpty = displayName.trimmingCharacters(in: .whitespaces).isEmpty
+                
+                Text("continue")
+                    .font(.headline)
+                    .foregroundColor(
+                        isEmpty ? Color.secondary : Color.white
+                    )
+                    .padding(.vertical, 16)
+                    .padding(.horizontal, 40)
                     .frame(maxWidth: .infinity)
+                    .background(
+                        displayName.trimmingCharacters(in: .whitespaces).isEmpty
+                        ? Color.gray.opacity(0.3)
+                        : Color.blue
+                    )
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
             }
-            .buttonStyle(.borderedProminent)
             .disabled(displayName.trimmingCharacters(in: .whitespaces).isEmpty)
             .padding(.horizontal, 24)
             .padding(.bottom, 32)

@@ -12,6 +12,7 @@ struct ConfirmNumberView: View {
     let onEdit: () -> Void
     let onConfirm: () -> Void
 
+    @EnvironmentObject var auth: AuthViewModel
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -23,24 +24,30 @@ struct ConfirmNumberView: View {
                 Text(fullNumber)
                     .font(.title2.bold())
 
-                Text("Is this number correct?")
+                Text(NSLocalizedString("confirm_title", comment: ""))
                     .multilineTextAlignment(.center)
 
                 HStack(spacing: 12) {
-                    Button("Edit") {
+                    Button("edit") {
                         dismiss()
                         onEdit()
                     }
                     .frame(maxWidth: .infinity)
 
-                    Button("Continue") {
+                    Button("continue") {
                         onConfirm()
                         dismiss()
                     }
                     .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
-                
+
+                if let errorMessage = auth.authError {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                }
             }
             .padding()
             .background(
@@ -58,4 +65,6 @@ struct ConfirmNumberView: View {
         onEdit: {},
         onConfirm: {}
     )
+    .environmentObject(AuthViewModel())
 }
+

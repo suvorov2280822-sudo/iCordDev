@@ -5,14 +5,28 @@
 //  Created by Денис on 15/11/2025.
 //
 
-import SwiftUI
+import UIKit
 
-struct UIApplication_TopVC: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+extension UIApplication {
+    var topViewController: UIViewController? {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first(where: { $0.isKeyWindow }),
+              let root = window.rootViewController else {
+            return nil
+        }
+        return getTopVC(root)
     }
-}
 
-#Preview {
-    UIApplication_TopVC()
+    private func getTopVC(_ vc: UIViewController) -> UIViewController {
+        if let nav = vc as? UINavigationController, let visible = nav.visibleViewController {
+            return getTopVC(visible)
+        }
+        if let tab = vc as? UITabBarController, let selected = tab.selectedViewController {
+            return getTopVC(selected)
+        }
+        if let presented = vc.presentedViewController {
+            return getTopVC(presented)
+        }
+        return vc
+    }
 }

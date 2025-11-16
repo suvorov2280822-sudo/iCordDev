@@ -46,26 +46,79 @@ class AuthViewModel: ObservableObject {
         needsProfile = !UserDefaults.standard.bool(forKey: key)
     }
     
-    func sendCode(fullPhoneNumber: String) async {
-        authError = nil
-        phoneNumber = fullPhoneNumber
+    private func friendlyError(_ error: Error) -> String {
+        let text = error.localizedDescription.lowercased()
 
-        do {
-            let verificationID = try await PhoneAuthProvider.provider()
-                .verifyPhoneNumber(fullPhoneNumber, uiDelegate: nil)
+        // Device / Abuse protection
+        if text.contains("blocked all requests") {
+            return NSLocalizedString("error_blocked", comment: "")
+        }
+        if text.contains("unusual activity") {
+            return NSLocalizedString("error_unusual_activity", comment: "")
+        }
+
+        // Incorrect verification code
+        if text.contains("session expired") {
+            return NSLocalizedString("error_code_expired", comment: "")
+        }
+        if text.contains("invalid verification code") {
+            return NSLocalizedString("error_verification", comment: "")
+        }
+
+        // Phone number errors
+        if text.contains("invalid phone number") {
+            return NSLocalizedString("error_invalid_phone", comment: "")
+        }
+        if text.contains("missing phone number") {
+            return NSLocalizedString("error_missing_phone", comment: "")
+        }
+
+        // Network
+        if text.contains("network") {
+            return NSLocalizedString("error_network", comment: "")
+        }
+        if text.contains("timed out") {
+            return NSLocalizedString("error_timeout", comment: "")
+        }
+
+        // Quotas exceeded
+        if text.contains("quota") {
+            return NSLocalizedString("error_quota", comment: "")
+        }
+
+        // Internal / Unknown
+        if text.contains("internal error") {
+            return NSLocalizedString("error_internal", comment: "")
+        }
+
+        return NSLocalizedString("error_auth", comment: "")
+    }
+    
+    func sendCode(fullPhoneNumber: String) {
+        self.authError = nil
+        
+        PhoneAuthProvider.provider().verifyPhoneNumber(fullPhoneNumber, uiDelegate: nil) { verificationID, error in
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.authError = self.friendlyError(error)
+                }
+                return
+            }
+
+            guard let verificationID = verificationID else {
+                DispatchQueue.main.async {
+                    self.authError = "Verification ID is empty"
+                }
+                return
+            }
 
             DispatchQueue.main.async {
                 self.verificationID = verificationID
             }
-
-        } catch {
-            DispatchQueue.main.async {
-                self.authError = error.localizedDescription
-            }
         }
     }
-    
-    
+
     func verifyCode(_ smsCode: String, completion: @escaping (Bool) -> Void) {
         authError = nil
 
@@ -81,7 +134,7 @@ class AuthViewModel: ObservableObject {
         Auth.auth().signIn(with: credential) { [weak self] result, error in
             DispatchQueue.main.async {
                 if let error = error {
-                    self?.authError = error.localizedDescription
+                    self?.authError = self?.friendlyError(error)
                     completion(false)
                     return
                 }
@@ -115,6 +168,7 @@ class AuthViewModel: ObservableObject {
         verificationID = nil
         phoneNumber = ""
         needsProfile = false
+        authError = nil
     }
     
 }

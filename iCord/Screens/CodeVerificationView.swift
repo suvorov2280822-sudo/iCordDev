@@ -18,13 +18,15 @@ struct CodeVerificationView: View {
 
     var body: some View {
         VStack(spacing: 24) {
+
+            // BACK BUTTON
             HStack {
                 Button {
                     dismiss()
                 } label: {
                     HStack(spacing: 4) {
                         Image(systemName: "chevron.backward")
-                        Text("Back")
+                        Text("back_button")
                             .foregroundColor(.black)
                     }
                 }
@@ -34,14 +36,15 @@ struct CodeVerificationView: View {
 
             Spacer()
 
-            Text("Enter code")
+            Text("code_title")
                 .font(.largeTitle.bold())
 
-            Text("We sent an SMS with a verification code to\n\(auth.phoneNumber)")
+            Text(String(format: NSLocalizedString("code_subtitle", comment: ""), auth.phoneNumber))
                 .multilineTextAlignment(.center)
                 .foregroundColor(.secondary)
                 .padding(.horizontal, 32)
 
+            //  --- CODE FIELD ---
             CodeField(
                 code: $smsCode,
                 length: 6,
@@ -51,6 +54,7 @@ struct CodeVerificationView: View {
             }
             .padding(.top, 8)
 
+            // ERROR TEXT
             if let error = auth.authError {
                 Text(error)
                     .foregroundColor(.red)
@@ -61,21 +65,39 @@ struct CodeVerificationView: View {
 
             Spacer()
 
+            // CONTINUE BUTTON
+            
+            let isDisabled = (smsCode.count < 6 || isProcessing)
+            
             Button {
                 verify()
             } label: {
-                if isProcessing {
-                    ProgressView()
-                } else {
-                    Text("Continue")
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 35)
+                HStack {
+                    if isProcessing {
+                        ProgressView()
+                            .tint(Color.white)
+                    } else {
+                        Text("continue")
+                            .font(.headline)
+                    }
                 }
+                .foregroundColor(isDisabled ? Color.secondary : Color.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .padding(.horizontal, 40)
+                .background(
+                    isDisabled
+                    ? Color.gray.opacity(0.3)
+                    : Color.blue
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 14))
             }
-            .buttonStyle(.borderedProminent)
-            .disabled(smsCode.count < 6 || isProcessing)
-            .padding(.horizontal, 70)
+            .disabled(isDisabled)
+            .padding(.horizontal, 80)
             .padding(.bottom, 32)
+            .onTapGesture {
+                hideKeyboard()
+            }
         }
         .navigationBarBackButtonHidden(true)
     }
@@ -93,15 +115,12 @@ struct CodeVerificationView: View {
                 withAnimation(.easeInOut) {
                     status = .success
                 }
-                // Лёгкий позитивный отклик
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
             } else {
                 withAnimation(.easeInOut) {
                     status = .error
                 }
-                // Ошибка — короткая вибрация
-                UINotificationFeedbackGenerator()
-                    .notificationOccurred(.error)
+                UINotificationFeedbackGenerator().notificationOccurred(.error)
             }
         }
     }
@@ -111,3 +130,4 @@ struct CodeVerificationView: View {
     CodeVerificationView()
         .environmentObject(AuthViewModel())
 }
+

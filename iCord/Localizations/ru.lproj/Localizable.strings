@@ -5,3 +5,34 @@
   Created by Денис on 16/11/2025.
   
 */
+
+
+
+"welcome_title" = "Добро пожаловать в iCord";
+"welcome_subtitle" = "Выберите, как хотите продолжить.";
+"continue" = "Продолжить";
+"back_button" = "Назад";
+"continue_in_language" = "Продолжить на %@";
+
+"phone_title" = "Телефон";
+"phone_subtitle" = "Пожалуйста, введите свой номер телефона.";
+"sync_contacts" = "Синхронизировать контакты";
+
+"confirm_title" = "Правильный номер?";
+"edit" = "Изменить";
+
+"code_title" = "Введите код";
+"code_subtitle" = "Мы отправили SMS с кодом подтверждения на %@";
+
+"profile_title" = "Профиль";
+"profile_subtitle" = "Введите ваше имя, чтобы завершить настройку аккаунта.";
+"profile_placeholder" = "Имя";
+
+"error_too_many_requests" = "Слишком много попыток. Попробуйте позже.";
+"error_incorrect_code" = "Неверный код подтверждения.";
+"error_internal" = "Произошла ошибка. Попробуйте снова.";
+"error_network" = "Ошибка сети. Проверьте подключение.";
+"error_auth" = "Ошибка авторизации. Попробуйте снова.";
+"error_verification_id_empty" = "Пустой идентификатор подтверждения.";
+"error_user_not_found" = "Пользователь не найден. Попробуйте снова.";
+"error_invalid_verification_code" = "Неверный код подтверждения.";

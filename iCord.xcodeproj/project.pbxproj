@@ -13,15 +13,30 @@
 		92243F492EC76348002B9873 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 92243F482EC76348002B9873 /* FirebaseFirestore */; };
 		92243F4B2EC76348002B9873 /* FirebaseInAppMessaging-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 92243F4A2EC76348002B9873 /* FirebaseInAppMessaging-Beta */; };
 		92243F4D2EC76348002B9873 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 92243F4C2EC76348002B9873 /* FirebaseMessaging */; };
+		92C70FFD2EC8D63600F2ACF0 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 92C70FFC2EC8D63600F2ACF0 /* FirebaseAppCheck */; };
+		92C710002EC8E35A00F2ACF0 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 92C70FFF2EC8E35A00F2ACF0 /* FirebaseCrashlytics */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		92243F312EC76218002B9873 /* iCord.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCord.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		92C710032EC8E39B00F2ACF0 /* Exceptions for "iCord" folder in "iCord" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 92243F302EC76218002B9873 /* iCord */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		92243F332EC76218002B9873 /* iCord */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				92C710032EC8E39B00F2ACF0 /* Exceptions for "iCord" folder in "iCord" target */,
+			);
 			path = iCord;
 			sourceTree = "<group>";
 		};
@@ -36,6 +51,8 @@
 				92243F472EC76348002B9873 /* FirebaseDatabase in Frameworks */,
 				92243F492EC76348002B9873 /* FirebaseFirestore in Frameworks */,
 				92243F452EC76348002B9873 /* FirebaseCore in Frameworks */,
+				92C70FFD2EC8D63600F2ACF0 /* FirebaseAppCheck in Frameworks */,
+				92C710002EC8E35A00F2ACF0 /* FirebaseCrashlytics in Frameworks */,
 				92243F432EC76348002B9873 /* FirebaseAuth in Frameworks */,
 				92243F4B2EC76348002B9873 /* FirebaseInAppMessaging-Beta in Frameworks */,
 			);
@@ -48,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				92243F332EC76218002B9873 /* iCord */,
+				92C70FFE2EC8E35A00F2ACF0 /* Frameworks */,
 				92243F322EC76218002B9873 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -58,6 +76,13 @@
 				92243F312EC76218002B9873 /* iCord.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		92C70FFE2EC8E35A00F2ACF0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -86,6 +111,8 @@
 				92243F482EC76348002B9873 /* FirebaseFirestore */,
 				92243F4A2EC76348002B9873 /* FirebaseInAppMessaging-Beta */,
 				92243F4C2EC76348002B9873 /* FirebaseMessaging */,
+				92C70FFC2EC8D63600F2ACF0 /* FirebaseAppCheck */,
+				92C70FFF2EC8E35A00F2ACF0 /* FirebaseCrashlytics */,
 			);
 			productName = iCord;
 			productReference = 92243F312EC76218002B9873 /* iCord.app */;
@@ -112,6 +139,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 92243F282EC76218002B9873;
 			minimizedProjectReferenceProxies = 1;
@@ -275,12 +303,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iCord/iCord.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Z4RA8RXYVA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = iCord/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This app uses data to improve user experience.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -309,12 +340,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iCord/iCord.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Z4RA8RXYVA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = iCord/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This app uses data to improve user experience.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -402,6 +436,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 92243F412EC76348002B9873 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
+		};
+		92C70FFC2EC8D63600F2ACF0 /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92243F412EC76348002B9873 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+		92C70FFF2EC8E35A00F2ACF0 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92243F412EC76348002B9873 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

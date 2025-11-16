@@ -2,17 +2,32 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>processing</string>
-		<string>remote-notification</string>
-	</array>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>com.kuperso.iCord.bgRefresh
 </string>
 	</array>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>This app uses data to improve user experience.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.643781699766-g6c2no5o103sevofma0tm0kfqb6ec4ib</string>
+			</array>
+		</dict>
+	</array>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
+	<key>FirebaseInAppMessagingAutomaticDataCollectionEnabled </key>
+	<false/>
+	<key>FirebaseMessagingAutoInitEnabled</key>
+	<false/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>processing</string>
+		<string>remote-notification</string>
+	</array>
 </dict>
 </plist>

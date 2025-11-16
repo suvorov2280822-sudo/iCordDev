@@ -14,13 +14,13 @@ struct WelcomeView: View {
         VStack(spacing: 24) {
             Spacer()
             
-            Text("Welcome to iCord")
+            Text("welcome_title")
                 .font(.largeTitle.bold())
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
             
             
-            Text("Choose how you want to continue.")
+            Text("welcome_subtitle")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
             
@@ -33,16 +33,24 @@ struct WelcomeView: View {
                     isFirstLaunch = false
                 } label: {
                     Text("Continue")
+                        .font(.headline)
+                        .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(Color.blue)
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                        .padding(.horizontal, 30)
                 }
-                .buttonStyle(.borderedProminent)
                 
                 
                 Button {
                     isFirstLaunch = false
                 } label: {
-                    Text("Continue in \(systemLanguageName())")
-                        .frame(maxWidth: .infinity)
+                    Text(String(format: NSLocalizedString("continue_in_language", comment: ""),
+                                systemLanguageName()
+                        )
+                    )
+                    .frame(maxWidth: .infinity)
                 }
                 
             }

@@ -7,32 +7,41 @@
 
 import SwiftUI
 
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+
 struct PhoneNumberView: View {
     @EnvironmentObject var auth: AuthViewModel
     
     @State private var selectedCountry: Country = {
         let region = Locale.current.region?.identifier ?? ""
-        return countries.first(where: { $0.iso == region }) ?? countries.first!
+        if let match = countries.first(where: { $0.iso == region }) {
+            return match
+        } else if let first = countries.first {
+            return first
+        } else {
+            return Country(name: "United States", iso: "US", code: "1", flag: "🇺🇸", mask: "(000) 000-0000")
+        }
     }()
-    
     
     @State private var phoneNumber: String = ""
     @State private var syncContacts: Bool = false
-    
     @State private var showCountryPicker: Bool = false
     @State private var showConfirmSheet: Bool = false
     @State private var navigateToCode: Bool = false
     
-    
     private var fullPhoneNumber: String {
-        "+" + selectedCountry.code + phoneNumber.trimmingCharacters(in: .whitespaces)
+        let trimmed = phoneNumber.trimmingCharacters(in: .whitespacesAndNewlines)
+        return  selectedCountry.code + trimmed
     }
     
     private var isContinueEnabled: Bool {
         let digits = phoneNumber.filter { $0.isNumber }
         return digits.count >= 7
     }
-    
     
     private func applyPhoneMask(_ text: String, mask: String) -> String {
         let digits = text.filter { $0.isNumber }
@@ -51,18 +60,16 @@ struct PhoneNumberView: View {
         return result
     }
     
-    
     var body: some View {
         NavigationStack {
             VStack(spacing: 24) {
                 
-                Spacer()
-                    .frame(height: 150)
+                Spacer().frame(height: 90)
                 
-                Text("Phone")
+                Text("phone_title")
                     .font(.largeTitle.bold())
                 
-                Text("Please enter your mobile number.")
+                Text("phone_subtitle")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                 
@@ -87,7 +94,7 @@ struct PhoneNumberView: View {
                     }
                     
                     HStack(spacing: 12) {
-                        Text("+\(selectedCountry.code)")
+                        Text(selectedCountry.code)
                             .padding(.vertical, 12)
                             .padding(.horizontal, 12)
                             .background(
@@ -109,16 +116,12 @@ struct PhoneNumberView: View {
                     }
                     .padding(.horizontal, 4)
                     
-                    Divider()
-                        .padding(.top, 4)
+                    Divider().padding(.top, 4)
                 }
                 .padding(.horizontal, 24)
                 
-                Toggle("Sync contacts", isOn: $syncContacts)
-                    .padding(.horizontal,24)
-                
-                Spacer()
-                    
+                Toggle("sync_contacts", isOn: $syncContacts)
+                    .padding(.horizontal, 24)
                 
                 if let error = auth.authError {
                     Text(error)
@@ -131,14 +134,33 @@ struct PhoneNumberView: View {
                 Button {
                     showConfirmSheet = true
                 } label: {
-                    Text("Continue")
+                    
+                    let isDisabled = !isContinueEnabled
+                    
+                    Text("continue")
+                        .font(.headline)
+                        .foregroundColor(isDisabled ? Color.secondary : Color.white)
+                        .padding(.vertical, 16)
+                        .padding(.horizontal, 40)
                         .frame(maxWidth: .infinity)
+                        .background(
+                            isDisabled
+                            ? Color.gray.opacity(0.3)
+                            :  Color.blue
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
                 }
-                .buttonStyle(.borderedProminent)
                 .disabled(!isContinueEnabled)
-                .opacity(isContinueEnabled ? 1 : 0.4)
                 .padding(.horizontal, 24)
                 .padding(.bottom, 32)
+                .padding(.top, 20)
+                
+                Spacer()
+                
+            }
+            .padding(.top, 16)
+            .onTapGesture {
+                hideKeyboard()
             }
             .navigationDestination(isPresented: $navigateToCode) {
                 CodeVerificationView()
@@ -150,18 +172,15 @@ struct PhoneNumberView: View {
         .sheet(isPresented: $showConfirmSheet) {
             ConfirmNumberView(
                 fullNumber: fullPhoneNumber,
-                onEdit: { showConfirmSheet = false},
+                onEdit: { showConfirmSheet = false },
                 onConfirm: {
-                    showConfirmSheet = false
-                    Task {
-                        await auth.sendCode(fullPhoneNumber: fullPhoneNumber)
-                    }
+                    auth.phoneNumber = fullPhoneNumber
+                    auth.sendCode(fullPhoneNumber: fullPhoneNumber)
                 }
             )
         }
-        .onChange(of: auth.verificationID) {newValue in
+        .onChange(of: auth.verificationID) { newValue in
             if newValue != nil {
-                
                 navigateToCode = true
             }
         }
@@ -170,6 +189,5 @@ struct PhoneNumberView: View {
 }
 
 #Preview {
-    PhoneNumberView()
-        .environmentObject(AuthViewModel())
+    PhoneNumberView().environmentObject(AuthViewModel())
 }

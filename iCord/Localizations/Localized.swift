@@ -5,14 +5,14 @@
 //  Created by Денис on 16/11/2025.
 //
 
-import SwiftUI
+import Foundation
 
-struct Localized: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+extension String {
+    var localized: String {
+        NSLocalizedString(self, comment: "")
     }
-}
 
-#Preview {
-    Localized()
+    func localized(_ argument: CVarArg) -> String {
+        String(format: self.localized, argument)
+    }
 }
