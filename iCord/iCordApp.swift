@@ -8,23 +8,22 @@
 import SwiftUI
 import FirebaseCore
 import FirebaseAuth
+import FirebaseAppCheck
 import UIKit
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
-    ) -> Bool {
-        FirebaseApp.configure()
-        return true
-    }
-}
+
 
 @main
 struct iCordApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-
     @StateObject private var auth = AuthViewModel()
+    
+    init() {
+            FirebaseApp.configure()
+            
+            // ВАЖНО: включаем app delegate proxy
+            Auth.auth().settings?.isAppVerificationDisabledForTesting = false
+        }
 
     var body: some Scene {
         WindowGroup {
